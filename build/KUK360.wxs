@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+MIT License
+
+KUK360 - Simple 360 photo viewer for Windows
+Copyright (c) 2019-2024 Jaroslav Imrich <jimrich@jimrich.sk>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!-- Install with: msiexec /i KUK360.msi /l* KUK360-install.log -->
+  <!-- Uninstall with: msiexec /x KUK360.msi /l* KUK360-uninstall.log -->
+  <!-- Reinstall over broken installaton with: msiexec /fv KUK360.msi /l* KUK360-repair.log -->
+  <!-- Note: Product Id uniquely identifies each specific version or build of the product. -->
+  <!-- Note: Product UpgradeCode is constant across different versions of the same product. -->
+  <Product Id="B4E296D0-72B2-4C0F-9077-6A7B0D3629D1" Name="KUK360" Language="1033" Version="2.0.0.0" Manufacturer="Jaroslav Imrich" UpgradeCode="EDE8C2FD-D43A-4F9A-8BE6-39B675CE0A8B">
+    <Package InstallerVersion="300" Compressed="yes" InstallScope="perMachine" />
+    <Media Id="1" Cabinet="KUK360.cab" EmbedCab="yes" CompressionLevel="high" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <Icon Id="KUK360Icon" SourceFile=".\KUK360.ico "/>
+    <!-- Product info displayed in control panel -->
+    <Property Id="ARPURLINFOABOUT" Value="https://www.kuk360.com/" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://www.kuk360.com/" />
+    <Property Id="ARPPRODUCTICON" Value="KUK360Icon" />
+    <!-- See: https://stackoverflow.com/a/3824949 -->
+    <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
+    <!-- Directory structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <!-- Program files -->
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="KUK360INSTALLDIR" Name="KUK360">
+          <Component Id="MainExecutable" Guid="5B6E9C0C-FF62-49A3-99BC-2A70D7D97D01">
+            <File Id="KUK360Exe" Source=".\KUK360.exe" KeyPath="yes">
+              <Shortcut Id="ApplicationStartMenuShortcut" Directory="ApplicationProgramsFolder" Name="KUK360" Description="Simple 360 photo viewer" WorkingDirectory="KUK360INSTALLDIR" Advertise="yes"/>
+            </File>
+          </Component>
+          <Component Id="ConfigFile" Guid="6B5170F6-73A3-4DF6-BF14-6EF09CC47964">
+            <File Id="KUK360ExeConfig" Source=".\KUK360.exe.config" KeyPath="yes" />
+          </Component>
+          <Component Id="LicenseFile" Guid="D46D2264-7FFF-4A6F-B6B3-608C9F271853">
+            <File Id="LicenseRtf" Source=".\LICENSE.rtf" KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+      <!-- Start menu shortcuts -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="KUK360">
+          <Component Id="ApplicationShortcut" Guid="96019DD5-98D9-41EC-87AC-0E61A62CE1EF">
+            <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall" />
+            <RegistryValue Root="HKMU" Key="Software\KUK360" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+    <!-- Installed components -->
+    <Feature Id="Complete" Level="1">
+      <ComponentRef Id="MainExecutable" />
+      <ComponentRef Id="ConfigFile" />
+      <ComponentRef Id="LicenseFile" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+    <!-- User Interface -->
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="WIXUI_INSTALLDIR" Value="KUK360INSTALLDIR" />
+    <WixVariable Id="WixUILicenseRtf" Value=".\LICENSE.rtf" />
+    <WixVariable Id="WixUIDialogBmp" Value=".\WixUIDialogBmp.png" />
+    <WixVariable Id="WixUIBannerBmp" Value=".\WixUIBannerBmp.png" />
+  </Product>
+</Wix>

@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{83121D82-277E-467B-8361-FBCFC781433F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>KUK360</RootNamespace>
+    <AssemblyName>KUK360</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>KUK360.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Codes\ImageFormatManager.cs" />
+    <Compile Include="ExternalCodes\3DTools\InteractiveSphere.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\Attributes.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\Awesome.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\ControlExtensions.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\Converters\CssClassNameConverter.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\Converters\DescriptionConverter.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\Converters\ImageSourceConverter.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\FontAwesome.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\FontAwesomeIcon.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\IFlippable.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\ImageAwesome.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\IRotatable.cs" />
+    <Compile Include="ExternalCodes\FontAwesome.WPF\ISpinable.cs" />
+    <Compile Include="ImageLoadingException.cs" />
+    <Compile Include="Viewers\BubbleViewer.xaml.cs">
+      <DependentUpon>BubbleViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Codes\FileManager.cs" />
+    <Compile Include="Codes\ProjectionManager.cs" />
+    <Compile Include="Codes\ProjectionType.cs" />
+    <Compile Include="Viewers\FlatViewer.xaml.cs">
+      <DependentUpon>FlatViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Codes\FullScreenManager.cs" />
+    <Compile Include="Viewers\SphereViewer.xaml.cs">
+      <DependentUpon>SphereViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viewers\TextViewer.xaml.cs">
+      <DependentUpon>TextViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ZoomControl.xaml.cs">
+      <DependentUpon>ZoomControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Viewers\BubbleViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viewers\FlatViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Viewers\SphereViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viewers\TextViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ZoomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.manifest" />
+    <Resource Include="ExternalCodes\FontAwesome\FontAwesome.otf" />
+    <None Include="LICENSE.rtf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="KUK360.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ExternalCodes\FontAwesome\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ExternalCodes\FontAwesome.WPF\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ExternalCodes\3DTools\LICENSE.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,427 @@
+﻿<!--
+MIT License
+
+KUK360 - Simple 360 photo viewer for Windows
+Copyright (c) 2019-2024 Jaroslav Imrich <jimrich@jimrich.sk>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<Window x:Class="KUK360.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="clr-namespace:KUK360.ExternalCodes.FontAwesome.WPF"
+        xmlns:kuk360Viewers="clr-namespace:KUK360.Viewers"
+        xmlns:kuk360Windows="clr-namespace:KUK360.Windows"
+        mc:Ignorable="d"
+        Title="KUK360 - Simple 360 photo viewer"
+        Width="1000" Height="600" MinWidth="750" MinHeight="450" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <SolidColorBrush x:Key="KukColorMainButtonsBackground" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="KukColorMainButtonBackgroundEnabled" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="KukColorMainButtonBackgroundDisabled" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="KukColorMainButtonBackgroundPressed" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="KukColorMainButtonForegroundEnabled" Color="#FF4C4C4C"/>
+        <SolidColorBrush x:Key="KukColorMainButtonForegroundDisabled" Color="#FFA9A9A9"/>
+        <SolidColorBrush x:Key="KukColorMainButtonForegroundPressed" Color="#FFA9A9A9"/>
+        <SolidColorBrush x:Key="KukColorMainMenuIconsEnabled" Color="#FF4C4C4C"/>
+        <SolidColorBrush x:Key="KukColorMainMenuIconsDisabled" Color="#FFA9A9A9"/>
+        <Style x:Key="MainMenuIconStyle" TargetType="fa:ImageAwesome">
+            <Setter Property="Foreground" Value="{StaticResource KukColorMainMenuIconsEnabled}"/>
+            <Setter Property="Margin" Value="1" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{StaticResource KukColorMainMenuIconsDisabled}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="BigButtonStyle" TargetType="Button">
+            <Setter Property="TextElement.FontFamily" Value="FontAwesome" />
+            <Setter Property="TextElement.FontSize" Value="24"/>
+            <Setter Property="Padding" Value="15, 10, 15, 10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="{StaticResource KukColorMainButtonBackgroundEnabled}"/>
+            <Setter Property="Foreground" Value="{StaticResource KukColorMainButtonForegroundEnabled}"/>
+            <Setter Property="MinWidth" Value="60"/>
+            <Setter Property="MinHeight" Value="60"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter Content="{TemplateBinding Content}" 
+                                              Margin="{TemplateBinding Margin}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" Value="{StaticResource KukColorMainButtonBackgroundDisabled}"/>
+                                <Setter Property="Foreground" Value="{StaticResource KukColorMainButtonForegroundDisabled}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" Value="{StaticResource KukColorMainButtonBackgroundPressed}"/>
+                                <Setter Property="Foreground" Value="{StaticResource KukColorMainButtonForegroundPressed}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ContextMenu x:Key="ViewerContexMenu">
+            <MenuItem Header="Open image..." 
+                      Command="{x:Static kuk360Windows:MainWindow.CmdFileOpen}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="FolderOpen" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Open file location..." 
+                      Command="{x:Static kuk360Windows:MainWindow.CmdFileOpenLocation}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Folder" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="Copy" 
+                      Command="{x:Static kuk360Windows:MainWindow.CmdEditCopy}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Copy" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Delete" 
+                      Command="{x:Static kuk360Windows:MainWindow.CmdEditDelete}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="TrashOutline" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="_Enter/exit full screen mode"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="ArrowsAlt" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="Zoom in" 
+                      Command="{x:Static kuk360Windows:MainWindow.CmdZoomIn}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="SearchPlus" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Zoom out" 
+                      Command="{x:Static kuk360Windows:MainWindow.CmdZoomOut}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="SearchMinus" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Zoom to 100%" 
+                      Command="{x:Static kuk360Windows:MainWindow.CmdZoom100}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Arrows" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="Automatic projection detection" 
+                      IsCheckable="True" 
+                      IsChecked="{Binding Path=AutoDetectionEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </ContextMenu>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileOpen}" CanExecute="CmdFileOpenCanExecute" Executed="CmdFileOpenExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdFilePrevious}" CanExecute="CmdFilePreviousCanExecute" Executed="CmdFilePreviousExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileNext}" CanExecute="CmdFileNextCanExecute" Executed="CmdFileNextExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileClose}" CanExecute="CmdFileCloseCanExecute" Executed="CmdFileCloseExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileOpenLocation}" CanExecute="CmdFileOpenLocationCanExecute" Executed="CmdFileOpenLocationExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileExit}" CanExecute="CmdFileExitCanExecute" Executed="CmdFileExitExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdEditCopy}" CanExecute="CmdEditCopyCanExecute" Executed="CmdEditCopyExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdEditDelete}" CanExecute="CmdEditDeleteCanExecute" Executed="CmdEditDeleteExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdProjectionSwitch}" CanExecute="CmdProjectionSwitchCanExecute" Executed="CmdProjectionSwitchExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdProjectionAutomatic}" CanExecute="CmdProjectionAutomaticCanExecute" Executed="CmdProjectionAutomaticExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoomIn}" CanExecute="CmdZoomInCanExecute" Executed="CmdZoomInExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoomOut}" CanExecute="CmdZoomOutCanExecute" Executed="CmdZoomOutExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoom100}" CanExecute="CmdZoom100CanExecute" Executed="CmdZoom100Executed" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoomShow}" CanExecute="CmdZoomShowCanExecute" Executed="CmdZoomShowExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdRotateLeft}" CanExecute="CmdRotateLeftCanExecute" Executed="CmdRotateLeftExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdRotateRight}" CanExecute="CmdRotateRightCanExecute" Executed="CmdRotateRightExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewReset}" CanExecute="CmdViewResetCanExecute" Executed="CmdViewResetExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}" CanExecute="CmdViewFullScreenCanExecute" Executed="CmdViewFullScreenExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdExitFullScreen}" CanExecute="CmdExitFullScreenCanExecute" Executed="CmdExitFullScreenExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdHelpVisitWebsite}" CanExecute="CmdHelpVisitWebsiteCanExecute" Executed="CmdHelpVisitWebsiteExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdHelpAbout}" CanExecute="CmdHelpAboutCanExecute" Executed="CmdHelpAboutExecuted" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileOpen}" Modifiers="Control" Key="O"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdFilePrevious}" Key="Left"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileNext}" Key="Right"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileClose}" Modifiers="Control" Key="W"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileOpenLocation}" Modifiers="Control" Key="L"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdFileExit}" Modifiers="Alt" Key="F4"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdEditCopy}" Modifiers="Control" Key="C"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdEditDelete}" Key="Delete"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdProjectionSwitch}" Key="F2"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdProjectionAutomatic}" Key="F3"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoomIn}" Modifiers="Ctrl" Key="Add"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoomIn}" Modifiers="Ctrl" Key="OemPlus"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoomOut}" Modifiers="Ctrl" Key="Subtract"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoomOut}" Modifiers="Ctrl" Key="OemMinus"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoom100}" Modifiers="Ctrl" Key="D0"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdZoomShow}" Key="F4"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdRotateLeft}" Modifiers="Ctrl" Key="OemOpenBrackets"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdRotateRight}" Modifiers="Ctrl" Key="OemCloseBrackets"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewReset}" Key="F5"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}" Key="F12"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdExitFullScreen}" Key="Esc"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdHelpAbout}" Key="F1"/>
+    </Window.InputBindings>
+    <Grid x:Name="gridMain" 
+          AllowDrop="True" 
+          Drop="GridMain_Drop" 
+          DragDrop.DragEnter="GridMain_DragEnter" 
+          DragDrop.DragOver="GridMain_DragOver">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..."
+                          InputGestureText="Ctrl+O"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdFileOpen}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="FolderOpen" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Previous"
+                          InputGestureText="Left Arrow"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdFilePrevious}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="ChevronLeft" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Next"
+                          InputGestureText="Right Arrow"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdFileNext}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="ChevronRight" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Close"
+                          InputGestureText="Ctrl+W"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdFileClose}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="WindowCloseOutline" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Open _file location..."
+                          InputGestureText="Ctrl+L"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdFileOpenLocation}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Folder" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Exit"
+                          InputGestureText="Alt+F4"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdFileExit}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="PowerOff" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Copy"
+                          InputGestureText="Ctrl+C"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdEditCopy}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Copy" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Delete"
+                          InputGestureText="Del"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdEditDelete}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="TrashOutline" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Projection">
+                    <MenuItem Header="_Switch to 360/FLAT" 
+                              InputGestureText="F2"
+                              Command="{x:Static kuk360Windows:MainWindow.CmdProjectionSwitch}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Globe" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Automatic detection"
+                              Name="menuItemAutomaticDetection"
+                              InputGestureText="F3"
+                              IsCheckable="True" 
+                              IsChecked="{Binding Path=AutoDetectionEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </MenuItem>
+                <MenuItem Header="_Zoom">
+                    <MenuItem Header="Zoom _in"
+                              InputGestureText="Ctrl+Plus"
+                              Command="{x:Static kuk360Windows:MainWindow.CmdZoomIn}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="SearchPlus" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Zoom _out" 
+                              InputGestureText="Ctrl+Minus"
+                              Command="{x:Static kuk360Windows:MainWindow.CmdZoomOut}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="SearchMinus" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Zoom to 100%" 
+                              InputGestureText="Ctrl+0"
+                              Command="{x:Static kuk360Windows:MainWindow.CmdZoom100}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Arrows" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Show/hide zoom level"
+                              InputGestureText="F4"
+                              Command="{x:Static kuk360Windows:MainWindow.CmdZoomShow}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Search" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Rotation">
+                    <MenuItem Header="Rotate _left"
+                              InputGestureText="Ctrl+["
+                              Command="{x:Static kuk360Windows:MainWindow.CmdRotateLeft}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="RotateLeft" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Rotate _right"
+                              InputGestureText="Ctrl+]" 
+                              Command="{x:Static kuk360Windows:MainWindow.CmdRotateRight}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="RotateRight" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Reset _view"
+                          InputGestureText="F5" 
+                          Command="{x:Static kuk360Windows:MainWindow.CmdViewReset}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Refresh" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Enter/exit full screen mode"
+                          InputGestureText="F12"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="ArrowsAlt" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="Visit _website..."
+                          Command="{x:Static kuk360Windows:MainWindow.CmdHelpVisitWebsite}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="ExternalLink" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_About..."
+                          InputGestureText="F1"
+                          Command="{x:Static kuk360Windows:MainWindow.CmdHelpAbout}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Copyright" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1" Background="{StaticResource KukColorViewerBackground}">
+            <kuk360Viewers:TextViewer x:Name="textViewer" 
+                                  Margin="0" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                  ContextMenu="{StaticResource ViewerContexMenu}" />
+            <kuk360Viewers:FlatViewer x:Name="flatViewer" 
+                                  Margin="0" 
+                                  ContextMenu="{StaticResource ViewerContexMenu}" />
+            <kuk360Viewers:SphereViewer x:Name="sphereViewer" 
+                                  Margin="0" 
+                                  ContextMenu="{StaticResource ViewerContexMenu}" />
+            <kuk360Viewers:BubbleViewer x:Name="bubbleViewer" 
+                                  Margin="20" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                                  ContextMenu="{StaticResource ViewerContexMenu}" />
+        </Grid>
+        <Grid Grid.Row="2" Background="{StaticResource KukColorMainButtonsBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" x:Name="btnProjectionSwitch" HorizontalAlignment="Right"
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="Globe"
+                    ToolTip="360/FLAT projection (F2)"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdProjectionSwitch}" />
+            <Button Grid.Column="2" HorizontalAlignment="Right" 
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="Search" 
+                    ToolTip="Show/hide zoom level (F4)"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdZoomShow}" />
+            <Button Grid.Column="3" HorizontalAlignment="Right" 
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="Refresh" 
+                    ToolTip="Reset view (F5)"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdViewReset}" />
+            <Button Grid.Column="4" HorizontalAlignment="Right"
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="ChevronLeft" 
+                    ToolTip="Previous image in folder (Left Arrow)"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdFilePrevious}" />
+            <Button Grid.Column="5" HorizontalAlignment="Center" 
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="ArrowsAlt" 
+                    ToolTip="Enter/exit full screen (F12)"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}" />
+            <Button Grid.Column="6" HorizontalAlignment="Left"
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="ChevronRight"
+                    ToolTip="Next image in folder (Right Arrow)"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdFileNext}" />
+            <Button Grid.Column="7" HorizontalAlignment="Left"
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="RotateLeft" 
+                    ToolTip="Rotate left (Ctrl+[)"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdRotateLeft}" />
+            <Button Grid.Column="8" HorizontalAlignment="Left"
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="RotateRight"
+                    ToolTip="Rotate right (Ctrl+])"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdRotateRight}" />
+            <Button Grid.Column="9" HorizontalAlignment="Left"
+                    Style="{StaticResource BigButtonStyle}" fa:Awesome.Content="TrashOutline"
+                    ToolTip="Delete image (DEL)"
+                    Command="{x:Static kuk360Windows:MainWindow.CmdEditDelete}" />
+        </Grid>
+    </Grid>
+</Window>
