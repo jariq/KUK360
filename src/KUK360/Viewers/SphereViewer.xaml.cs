@@ -106,9 +106,24 @@ namespace KUK360.Viewers
         private double _camPhiSpeed = 0;
 
         /// <summary>
-        /// Flag indicating whether mouse button is preseed down
+        /// Current automatic horizontal rotation speed
         /// </summary>
-        private bool _mouseDown = false;
+        private int _autoRotateSpeed = 0;
+
+        /// <summary>
+        /// Minimum allowed automatic horizontal rotation speed
+        /// </summary>
+        private const int _autoRotateSpeedMin = -10;
+
+        /// <summary>
+        /// Maximum allowed automatic horizontal rotation speed
+        /// </summary>
+        private const int _autoRotateSpeedMax = 10;
+
+        /// <summary>
+        /// Flag indicating whether the camera should move
+        /// </summary>
+        private bool _shouldMove = false;
 
         /// <summary>
         /// X coordinate of the mouse press
@@ -121,9 +136,9 @@ namespace KUK360.Viewers
         private double _mouseY = 0;
 
         /// <summary>
-        /// Camera animation timer
+        /// Camera movement timer
         /// </summary>
-        private DispatcherTimer _timer = null;
+        private DispatcherTimer _cameraMovementTimer = null;
 
         #endregion
 
@@ -161,17 +176,19 @@ namespace KUK360.Viewers
             _camPhi = 90;
             _camThetaSpeed = 0;
             _camPhiSpeed = 0;
+            _autoRotateSpeed = 0;
 
-            _mouseDown = false;
+            _shouldMove = false;
             _mouseX = 0;
             _mouseY = 0;
 
-            _timer = new DispatcherTimer()
+            _cameraMovementTimer = new DispatcherTimer()
             {
                 Interval = TimeSpan.FromMilliseconds(10)
             };
 
-            _timer.Tick += Timer_Tick;
+            _cameraMovementTimer.Tick += CameraMovementTimer_Tick;
+            _cameraMovementTimer.Start();
 
             this.Cursor = Cursors.Arrow;
 
@@ -222,6 +239,57 @@ namespace KUK360.Viewers
             modelVisual.Children.Add(sphereModel);
 
             ApplyZoom(100);
+        }
+
+        #endregion
+
+        #region Rotation
+
+        public int GetAutoRotateSpeed()
+        {
+            return _autoRotateSpeed;
+        }
+
+        public void AutoRotateStop()
+        {
+            _autoRotateSpeed = 0;
+            _shouldMove = false;
+        }
+
+        public bool CanAutoRotateLeft()
+        {
+            return (_autoRotateSpeed > _autoRotateSpeedMin);
+        }
+
+        public void AutoRotateLeft()
+        {
+            if (!CanAutoRotateLeft())
+                return;
+
+            _autoRotateSpeed -= 1;
+
+            _shouldMove = (_autoRotateSpeed != 0);
+
+            _camPhiSpeed = 0;
+            _camThetaSpeed = _autoRotateSpeed;
+        }
+
+        public bool CanAutoRotateRight()
+        {
+            return (_autoRotateSpeed < _autoRotateSpeedMax);
+        }
+
+        public void AutoRotateRight()
+        {
+            if (!CanAutoRotateRight())
+                return;
+
+            _autoRotateSpeed += 1;
+
+            _shouldMove = (_autoRotateSpeed != 0);
+
+            _camPhiSpeed = 0;
+            _camThetaSpeed = _autoRotateSpeed;
         }
 
         #endregion
@@ -277,9 +345,9 @@ namespace KUK360.Viewers
         /// </summary>
         /// <param name="sender">Who knows</param>
         /// <param name="e">Who knows</param>
-        private void Timer_Tick(object sender, EventArgs e)
+        private void CameraMovementTimer_Tick(object sender, EventArgs e)
         {
-            if (!_mouseDown)
+            if (!_shouldMove)
                 return;
 
             _camTheta += _camThetaSpeed / 50;
@@ -313,17 +381,16 @@ namespace KUK360.Viewers
         /// <param name="e">Who knows</param>
         private void ViewPort_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _mouseDown = true;
+            _shouldMove = true;
 
             _mouseX = Mouse.GetPosition(viewPort).X;
             _mouseY = Mouse.GetPosition(viewPort).Y;
 
             _camThetaSpeed = 0;
             _camPhiSpeed = 0;
+            _autoRotateSpeed = 0;
 
             this.Cursor = Cursors.Hand;
-
-            _timer.Start();
         }
 
         /// <summary>
@@ -333,11 +400,9 @@ namespace KUK360.Viewers
         /// <param name="e">Who knows</param>
         private void ViewPort_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            _mouseDown = false;
+            _shouldMove = false;
 
             this.Cursor = Cursors.Arrow;
-
-            _timer.Stop();
         }
 
         /// <summary>
@@ -347,7 +412,7 @@ namespace KUK360.Viewers
         /// <param name="e">Who knows</param>
         private void ViewPort_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!_mouseDown)
+            if (!_shouldMove)
                 return;
 
             if (e.LeftButton == MouseButtonState.Pressed)

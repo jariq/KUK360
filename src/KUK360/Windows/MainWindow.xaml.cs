@@ -483,6 +483,8 @@ namespace KUK360.Windows
             {
                 _projectionManager.Projection = ProjectionType.Flat;
                 DisplayImageInFlatViewer();
+
+                sphereViewer.AutoRotateStop();
             }
             else
             {
@@ -611,12 +613,29 @@ namespace KUK360.Windows
 
         private void CmdRotateLeftCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = IsImageDisplayed() && IsFlatViewerDisplayed();
+            if (IsFlatViewerDisplayed())
+            {
+                e.CanExecute = IsImageDisplayed();
+            }
+
+            if (IsSphereViewerDisplayed())
+            {
+                e.CanExecute = IsImageDisplayed() && sphereViewer.CanAutoRotateLeft();
+            }
         }
 
         private void CmdRotateLeftExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            flatViewer.RotateLeft();
+            if (IsFlatViewerDisplayed())
+            {
+                flatViewer.RotateLeft();
+            }
+
+            if (IsSphereViewerDisplayed())
+            {
+                sphereViewer.AutoRotateLeft();
+                bubbleViewer.ShowTemporaryBubble("Rotation speed: " + Math.Abs(sphereViewer.GetAutoRotateSpeed()));
+            }
         }
 
         #endregion
@@ -627,12 +646,29 @@ namespace KUK360.Windows
 
         private void CmdRotateRightCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = IsImageDisplayed() && IsFlatViewerDisplayed();
+            if (IsFlatViewerDisplayed())
+            {
+                e.CanExecute = IsImageDisplayed();
+            }
+
+            if (IsSphereViewerDisplayed())
+            {
+                e.CanExecute = IsImageDisplayed() && sphereViewer.CanAutoRotateRight();
+            }
         }
 
         private void CmdRotateRightExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            flatViewer.RotateRight();
+            if (IsFlatViewerDisplayed())
+            {
+                flatViewer.RotateRight();
+            }
+
+            if (IsSphereViewerDisplayed())
+            {
+                sphereViewer.AutoRotateRight();
+                bubbleViewer.ShowTemporaryBubble("Rotation speed: " + Math.Abs(sphereViewer.GetAutoRotateSpeed()));
+            }
         }
 
         #endregion
