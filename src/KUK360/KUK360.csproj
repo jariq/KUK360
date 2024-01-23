@@ -84,7 +84,7 @@
     <Compile Include="ExternalCodes\FontAwesome.WPF\ImageAwesome.cs" />
     <Compile Include="ExternalCodes\FontAwesome.WPF\IRotatable.cs" />
     <Compile Include="ExternalCodes\FontAwesome.WPF\ISpinable.cs" />
-    <Compile Include="ImageLoadingException.cs" />
+    <Compile Include="Codes\ImageLoadingException.cs" />
     <Compile Include="Viewers\BubbleViewer.xaml.cs">
       <DependentUpon>BubbleViewer.xaml</DependentUpon>
     </Compile>

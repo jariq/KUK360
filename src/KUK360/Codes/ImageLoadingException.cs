@@ -24,7 +24,7 @@
 
 using System;
 
-namespace KUK360
+namespace KUK360.Codes
 {
     public class ImageLoadingException : Exception
     {
