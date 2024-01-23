@@ -164,6 +164,7 @@ SOFTWARE.
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}" CanExecute="CmdViewFullScreenCanExecute" Executed="CmdViewFullScreenExecuted" />
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdExitFullScreen}" CanExecute="CmdExitFullScreenCanExecute" Executed="CmdExitFullScreenExecuted" />
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdHelpVisitWebsite}" CanExecute="CmdHelpVisitWebsiteCanExecute" Executed="CmdHelpVisitWebsiteExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdHelpCheckForUpdates}" CanExecute="CmdHelpCheckForUpdatesCanExecute" Executed="CmdHelpCheckForUpdatesExecuted" />
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdHelpAbout}" CanExecute="CmdHelpAboutCanExecute" Executed="CmdHelpAboutExecuted" />
     </Window.CommandBindings>
     <Window.InputBindings>
@@ -344,6 +345,12 @@ SOFTWARE.
                           Command="{x:Static kuk360Windows:MainWindow.CmdHelpVisitWebsite}">
                     <MenuItem.Icon>
                         <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="ExternalLink" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Check for _updates..."
+                          Command="{x:Static kuk360Windows:MainWindow.CmdHelpCheckForUpdates}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Heartbeat" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />

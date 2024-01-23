@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,7 +65,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Codes\AppInfo.cs" />
+    <Compile Include="Codes\LatestVersionInfo.cs" />
     <Compile Include="Codes\ImageFormatManager.cs" />
+    <Compile Include="Codes\SimpleXmlSerializer.cs" />
+    <Compile Include="Codes\BackgroundWorkerException.cs" />
+    <Compile Include="Codes\MessageBoxUtils.cs" />
     <Compile Include="ExternalCodes\3DTools\InteractiveSphere.cs" />
     <Compile Include="ExternalCodes\FontAwesome.WPF\Attributes.cs" />
     <Compile Include="ExternalCodes\FontAwesome.WPF\Awesome.cs" />
@@ -101,6 +107,9 @@
     <Compile Include="Controls\ZoomControl.xaml.cs">
       <DependentUpon>ZoomControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\WaitWindow.xaml.cs">
+      <DependentUpon>WaitWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Viewers\BubbleViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ZoomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\WaitWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

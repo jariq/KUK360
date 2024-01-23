@@ -22,9 +22,6 @@
  * SOFTWARE.
  */
 
-using KUK360.Codes;
-using Microsoft.VisualBasic.FileIO;
-using Microsoft.Win32;
 using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -32,6 +29,9 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KUK360.Codes;
+using Microsoft.VisualBasic.FileIO;
+using Microsoft.Win32;
 
 namespace KUK360.Windows
 {
@@ -740,6 +740,53 @@ namespace KUK360.Windows
         private void CmdHelpVisitWebsiteExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo(@"https://www.kuk360.com/"));
+        }
+
+        #endregion
+
+        #region CmdHelpCheckForUpdates
+
+        public static RoutedCommand CmdHelpCheckForUpdates = new RoutedCommand();
+
+        private void CmdHelpCheckForUpdatesCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CmdHelpCheckForUpdatesExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                WaitWindow.Execute(this, AppInfo.DownloadLatestVersionInfo, 2);
+                LatestVersionInfo latestVersionInfo = AppInfo.LatestVersionInfo;
+
+                Version thisVersion = new Version(AppInfo.Version);
+                Version latestVersion = new Version(latestVersionInfo.Version);
+
+                if (0 > thisVersion.CompareTo(latestVersion))
+                {
+                    if (MessageBoxUtils.AskQuestion(this, "Application update is available." + Environment.NewLine + "Do you want to open the downloads page?") == MessageBoxResult.Yes)
+                    {
+                        Uri uri = new Uri(latestVersionInfo.DownloadUrl, UriKind.Absolute);
+                        if ((!uri.IsAbsoluteUri) || ((uri.Scheme != Uri.UriSchemeHttp) && (uri.Scheme != Uri.UriSchemeHttps)))
+                            throw new Exception("Invalid update URL");
+
+                        Process.Start(new ProcessStartInfo(latestVersionInfo.DownloadUrl));
+                    }
+                }
+                else
+                {
+                    MessageBoxUtils.ShowInfo(this, "Application is up to date.");
+                }
+            }
+            catch (BackgroundWorkerException ex)
+            {
+                MessageBoxUtils.ShowError(this, ex.InnerException);
+            }
+            catch (Exception ex)
+            {
+                MessageBoxUtils.ShowError(this, ex);
+            }
         }
 
         #endregion
