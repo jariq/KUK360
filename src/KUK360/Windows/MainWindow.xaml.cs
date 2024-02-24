@@ -696,6 +696,22 @@ namespace KUK360.Windows
 
         #endregion
 
+        #region CmdViewGrid
+
+        public static RoutedCommand CmdViewGrid = new RoutedCommand();
+
+        private void CmdViewGridCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = IsImageDisplayed() && IsFlatViewerDisplayed();
+        }
+
+        private void CmdViewGridExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            flatViewer.ToggleGrid();
+        }
+
+        #endregion
+
         #region CmdViewFullScreen
 
         public static RoutedCommand CmdViewFullScreen = new RoutedCommand();

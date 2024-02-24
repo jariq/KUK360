@@ -71,6 +71,9 @@
     <Compile Include="Codes\SimpleXmlSerializer.cs" />
     <Compile Include="Codes\BackgroundWorkerException.cs" />
     <Compile Include="Codes\MessageBoxUtils.cs" />
+    <Compile Include="Controls\GridOverlay.xaml.cs">
+      <DependentUpon>GridOverlay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExternalCodes\3DTools\InteractiveSphere.cs" />
     <Compile Include="ExternalCodes\FontAwesome.WPF\Attributes.cs" />
     <Compile Include="ExternalCodes\FontAwesome.WPF\Awesome.cs" />
@@ -110,6 +113,10 @@
     <Compile Include="Windows\WaitWindow.xaml.cs">
       <DependentUpon>WaitWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\GridOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Viewers\BubbleViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
