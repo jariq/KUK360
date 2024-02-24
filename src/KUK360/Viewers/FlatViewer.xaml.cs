@@ -459,5 +459,14 @@ namespace KUK360.Viewers
         }
 
         #endregion
+
+        #region Grid
+
+        public void ToggleGrid()
+        {
+            gridOverlay.Visibility = (gridOverlay.Visibility == Visibility.Hidden) ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        #endregion
     }
 }

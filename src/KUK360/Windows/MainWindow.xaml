@@ -112,6 +112,12 @@ SOFTWARE.
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
+            <MenuItem Header="_Show/hide grid"
+                      Command="{x:Static kuk360Windows:MainWindow.CmdViewGrid}">
+                <MenuItem.Icon>
+                    <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Th" />
+                </MenuItem.Icon>
+            </MenuItem>
             <MenuItem Header="_Enter/exit full screen mode"
                           Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}">
                 <MenuItem.Icon>
@@ -161,6 +167,7 @@ SOFTWARE.
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdRotateLeft}" CanExecute="CmdRotateLeftCanExecute" Executed="CmdRotateLeftExecuted" />
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdRotateRight}" CanExecute="CmdRotateRightCanExecute" Executed="CmdRotateRightExecuted" />
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewReset}" CanExecute="CmdViewResetCanExecute" Executed="CmdViewResetExecuted" />
+        <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewGrid}" CanExecute="CmdViewGridCanExecute" Executed="CmdViewGridExecuted" />
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}" CanExecute="CmdViewFullScreenCanExecute" Executed="CmdViewFullScreenExecuted" />
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdExitFullScreen}" CanExecute="CmdExitFullScreenCanExecute" Executed="CmdExitFullScreenExecuted" />
         <CommandBinding Command="{x:Static kuk360Windows:MainWindow.CmdHelpVisitWebsite}" CanExecute="CmdHelpVisitWebsiteCanExecute" Executed="CmdHelpVisitWebsiteExecuted" />
@@ -187,6 +194,7 @@ SOFTWARE.
         <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdRotateLeft}" Modifiers="Ctrl" Key="OemOpenBrackets"/>
         <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdRotateRight}" Modifiers="Ctrl" Key="OemCloseBrackets"/>
         <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewReset}" Key="F5"/>
+        <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewGrid}" Key="F6"/>
         <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdViewFullScreen}" Key="F12"/>
         <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdExitFullScreen}" Key="Esc"/>
         <KeyBinding Command="{x:Static kuk360Windows:MainWindow.CmdHelpAbout}" Key="F1"/>
@@ -330,6 +338,13 @@ SOFTWARE.
                           Command="{x:Static kuk360Windows:MainWindow.CmdViewReset}">
                     <MenuItem.Icon>
                         <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Refresh" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Show/hide _grid"
+                          InputGestureText="F6" 
+                          Command="{x:Static kuk360Windows:MainWindow.CmdViewGrid}">
+                    <MenuItem.Icon>
+                        <fa:ImageAwesome Style="{StaticResource MainMenuIconStyle}" Icon="Th" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="_Enter/exit full screen mode"
