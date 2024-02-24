@@ -29,7 +29,7 @@ SOFTWARE.
   <!-- Reinstall over broken installaton with: msiexec /fv KUK360.msi /l* KUK360-repair.log -->
   <!-- Note: Product Id uniquely identifies each specific version or build of the product. -->
   <!-- Note: Product UpgradeCode is constant across different versions of the same product. -->
-  <Product Id="B4E296D0-72B2-4C0F-9077-6A7B0D3629D1" Name="KUK360" Language="1033" Version="2.0.0.0" Manufacturer="Jaroslav Imrich" UpgradeCode="EDE8C2FD-D43A-4F9A-8BE6-39B675CE0A8B">
+  <Product Id="3BCDD5C8-06E2-4480-88E6-C96ADF0CA163" Name="KUK360" Language="1033" Version="2.1.0.0" Manufacturer="Jaroslav Imrich" UpgradeCode="EDE8C2FD-D43A-4F9A-8BE6-39B675CE0A8B">
     <Package InstallerVersion="300" Compressed="yes" InstallScope="perMachine" />
     <Media Id="1" Cabinet="KUK360.cab" EmbedCab="yes" CompressionLevel="high" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
