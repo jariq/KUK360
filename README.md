@@ -37,7 +37,7 @@ Easily accessible buttons help you navigate through your photos and provide quic
 
 ## Download
 
-You can download the [latest release](https://github.com/jariq/KUK360/releases/latest) right away. What are you waiting for? :smile:
+You can download the [latest release](https://github.com/jariq/KUK360/releases/latest) right away. Complete list of changes between individual versions can be found in the [changelog](CHANGELOG.md).
 
 If you're just exploring the world of 360° photography and you don't have your own photos yet, then consider downloading my [sample equirectangular photo](img/KUK360-Photo-Sample.jpg).
 
