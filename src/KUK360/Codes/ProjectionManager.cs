@@ -60,13 +60,13 @@ namespace KUK360.Codes
         public ProjectionManager()
         {
             _autoDetectionEnabled = true;
-            Projection = ProjectionType.Flat;
+            Projection = ProjectionType.Standard;
         }
 
         public ProjectionType DetermineImageProjection(string path)
         {
             if (AutoDetectionEnabled)
-                Projection = IsEquirectangularImage(path) ? ProjectionType.Sphere : ProjectionType.Flat;
+                Projection = IsEquirectangularImage(path) ? ProjectionType.ThreeSixty : ProjectionType.Standard;
 
             return Projection;
         }

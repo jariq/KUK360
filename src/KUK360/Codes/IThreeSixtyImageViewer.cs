@@ -24,9 +24,58 @@
 
 namespace KUK360.Codes
 {
-    public enum ProjectionType
+    internal interface IThreeSixtyImageViewer
     {
-        Standard,
-        ThreeSixty
+        #region Visibility
+
+        bool IsShown();
+
+        void Show();
+
+        void Hide();
+
+        #endregion
+
+        #region Image loading
+
+        void LoadImage(string path);
+
+        #endregion
+
+        #region Rotation
+
+        int GetAutoRotateSpeed();
+
+        void AutoRotateStop();
+
+        bool CanAutoRotateLeft();
+
+        void AutoRotateLeft();
+
+        bool CanAutoRotateRight();
+
+        void AutoRotateRight();
+
+        #endregion
+
+        #region ZoomControl
+
+        void ToggleZoomControl();
+
+        void ShowZoomControl();
+
+        void HideZoomControl();
+
+        #endregion
+
+        #region Zooming
+
+        void ZoomIn();
+
+        void ZoomOut();
+
+        void ZoomReset();
+
+        #endregion
     }
 }

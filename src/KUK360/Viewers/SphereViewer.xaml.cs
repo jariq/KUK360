@@ -67,7 +67,7 @@ namespace KUK360.Viewers
     /// <summary>
     /// 360 projection image viewer
     /// </summary>
-    public partial class SphereViewer : UserControl
+    public partial class SphereViewer : UserControl, IThreeSixtyImageViewer
     {
         #region Private fields
 
@@ -153,6 +153,25 @@ namespace KUK360.Viewers
             InitializeComponent();
 
             Reset();
+        }
+
+        #endregion
+
+        #region Visibility
+
+        public bool IsShown()
+        {
+            return this.Visibility == Visibility.Visible;
+        }
+
+        public void Show()
+        {
+            this.Visibility = Visibility.Visible;
+        }
+
+        public void Hide()
+        {
+            this.Visibility = Visibility.Collapsed;
         }
 
         #endregion

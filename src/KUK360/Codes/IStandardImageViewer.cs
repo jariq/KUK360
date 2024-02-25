@@ -24,9 +24,56 @@
 
 namespace KUK360.Codes
 {
-    public enum ProjectionType
+    internal interface IStandardImageViewer
     {
-        Standard,
-        ThreeSixty
+        #region Visibility
+
+        bool IsShown();
+
+        void Show();
+
+        void Hide();
+
+        #endregion
+
+        #region Image loading
+
+        void LoadImage(string path, bool resetRotation);
+
+        #endregion
+
+        #region Rotation
+
+        void RotateLeft();
+
+        void RotateRight();
+
+        #endregion
+
+        #region ZoomControl
+
+        void ToggleZoomControl();
+
+        void ShowZoomControl();
+
+        void HideZoomControl();
+
+        #endregion
+
+        #region Zooming
+
+        void ZoomIn();
+
+        void ZoomOut();
+
+        void ZoomReset();
+
+        #endregion
+
+        #region Grid
+
+        void ToggleGrid();
+
+        #endregion
     }
 }

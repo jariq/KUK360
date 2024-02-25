@@ -35,7 +35,7 @@ namespace KUK360.Viewers
     /// <summary>
     /// Flat projection image viewer
     /// </summary>
-    public partial class FlatViewer : UserControl
+    public partial class FlatViewer : UserControl, IStandardImageViewer
     {
         #region Private fields
 
@@ -86,6 +86,25 @@ namespace KUK360.Viewers
             InitializeComponent();
 
             Reset(true);
+        }
+
+        #endregion
+
+        #region Visibility
+
+        public bool IsShown()
+        {
+            return this.Visibility == Visibility.Visible;
+        }
+
+        public void Show()
+        {
+            this.Visibility = Visibility.Visible;
+        }
+
+        public void Hide()
+        {
+            this.Visibility = Visibility.Collapsed;
         }
 
         #endregion

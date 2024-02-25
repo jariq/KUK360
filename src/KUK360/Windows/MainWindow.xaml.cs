@@ -43,6 +43,22 @@ namespace KUK360.Windows
             private set;
         }
 
+        internal IThreeSixtyImageViewer ThreeSixtyViewer
+        {
+            get
+            {
+                return sphereViewer;
+            }
+        }
+
+        internal IStandardImageViewer StandardViewer
+        {
+            get
+            {
+                return flatViewer;
+            }
+        }
+
         private FullScreenManager _fullScreenManager = null;
 
         private FileManager _fileManager = new FileManager();
@@ -118,13 +134,13 @@ namespace KUK360.Windows
             {
                 _fileManager.SetCurrentFile(path);
 
-                sphereViewer.LoadImage(null);
-                sphereViewer.HideZoomControl();
-                HideSphereViewer();
+                ThreeSixtyViewer.LoadImage(null);
+                ThreeSixtyViewer.HideZoomControl();
+                HideThreeSixtyViewer();
 
-                flatViewer.LoadImage(null, true);
-                flatViewer.HideZoomControl();
-                HideFlatViewer();
+                StandardViewer.LoadImage(null, true);
+                StandardViewer.HideZoomControl();
+                HideStandardViewer();
 
                 DisplayOpenButtonInTextViewer();
 
@@ -142,29 +158,29 @@ namespace KUK360.Windows
                     try
                     {
                         ProjectionType projection = _projectionManager.DetermineImageProjection(path);
-                        if (projection == ProjectionType.Sphere)
+                        if (projection == ProjectionType.ThreeSixty)
                         {
 
-                            sphereViewer.LoadImage(path);
-                            DisplayImageInSphereViewer();
-                            flatViewer.LoadImage(path, true);
+                            ThreeSixtyViewer.LoadImage(path);
+                            DisplayImageInThreeSixtyViewer();
+                            StandardViewer.LoadImage(path, true);
                         }
                         else
                         {
-                            flatViewer.LoadImage(path, true);
-                            DisplayImageInFlatViewer();
-                            sphereViewer.LoadImage(path);
+                            StandardViewer.LoadImage(path, true);
+                            DisplayImageInStandardViewer();
+                            ThreeSixtyViewer.LoadImage(path);
                         }
                     }
                     catch (ImageLoadingException)
                     {
-                        sphereViewer.LoadImage(null);
-                        sphereViewer.HideZoomControl();
-                        HideSphereViewer();
+                        ThreeSixtyViewer.LoadImage(null);
+                        ThreeSixtyViewer.HideZoomControl();
+                        HideThreeSixtyViewer();
 
-                        flatViewer.LoadImage(null, true);
-                        flatViewer.HideZoomControl();
-                        HideFlatViewer();
+                        StandardViewer.LoadImage(null, true);
+                        StandardViewer.HideZoomControl();
+                        HideStandardViewer();
 
                         bubbleViewer.HideBubble();
                         DisplayStaticTextInTextViewer("Unable to load image");
@@ -183,65 +199,65 @@ namespace KUK360.Windows
 
         private bool IsImageDisplayed()
         {
-            return (!string.IsNullOrEmpty(_fileManager.CurrentFile) && (IsSphereViewerDisplayed() || IsFlatViewerDisplayed()));
+            return (!string.IsNullOrEmpty(_fileManager.CurrentFile) && (IsThreeSixtyViewerDisplayed() || IsStandardViewerDisplayed()));
         }
 
-        #region SphereViewer
+        #region ThreeSixtyViewer
 
-        private bool IsSphereViewerDisplayed()
+        private bool IsThreeSixtyViewerDisplayed()
         {
-            return (sphereViewer.Visibility == Visibility.Visible);
+            return ThreeSixtyViewer.IsShown();
         }
 
-        private void DisplayImageInSphereViewer()
+        private void DisplayImageInThreeSixtyViewer()
         {
             KUK360.ExternalCodes.FontAwesome.WPF.Awesome.SetContent(btnProjectionSwitch, KUK360.ExternalCodes.FontAwesome.WPF.FontAwesomeIcon.Image);
 
             HideTextViewer();
-            HideFlatViewer();
-            ShowSphereViewer();
+            HideStandardViewer();
+            ShowThreeSixtyViewer();
 
             bubbleViewer.ShowTemporaryBubble("360° projection");
         }
 
-        private void ShowSphereViewer()
+        private void ShowThreeSixtyViewer()
         {
-            sphereViewer.Visibility = Visibility.Visible;
+            ThreeSixtyViewer.Show();
         }
 
-        private void HideSphereViewer()
+        private void HideThreeSixtyViewer()
         {
-            sphereViewer.Visibility = Visibility.Collapsed;
+            ThreeSixtyViewer.Hide();
         }
 
         #endregion
 
-        #region FlatViewer
+        #region StandardViewer
 
-        private bool IsFlatViewerDisplayed()
+        private bool IsStandardViewerDisplayed()
         {
-            return (flatViewer.Visibility == Visibility.Visible);
+            return StandardViewer.IsShown();
         }
 
-        private void DisplayImageInFlatViewer()
+        private void DisplayImageInStandardViewer()
         {
             KUK360.ExternalCodes.FontAwesome.WPF.Awesome.SetContent(btnProjectionSwitch, KUK360.ExternalCodes.FontAwesome.WPF.FontAwesomeIcon.Globe);
 
             HideTextViewer();
-            ShowFlatViewer();
-            HideSphereViewer();
+            ShowStandardViewer();
+            HideThreeSixtyViewer();
 
-            bubbleViewer.ShowTemporaryBubble("Flat projection");
+            bubbleViewer.ShowTemporaryBubble("Standard projection");
         }
 
-        private void ShowFlatViewer()
+        private void ShowStandardViewer()
         {
-            flatViewer.Visibility = Visibility.Visible;
+            StandardViewer.Show();
         }
 
-        private void HideFlatViewer()
+        private void HideStandardViewer()
         {
-            flatViewer.Visibility = Visibility.Collapsed;
+            StandardViewer.Hide();
         }
 
         #endregion
@@ -479,17 +495,17 @@ namespace KUK360.Windows
 
         private void CmdProjectionSwitchExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (IsSphereViewerDisplayed())
+            if (IsThreeSixtyViewerDisplayed())
             {
-                _projectionManager.Projection = ProjectionType.Flat;
-                DisplayImageInFlatViewer();
+                _projectionManager.Projection = ProjectionType.Standard;
+                DisplayImageInStandardViewer();
 
-                sphereViewer.AutoRotateStop();
+                ThreeSixtyViewer.AutoRotateStop();
             }
             else
             {
-                _projectionManager.Projection = ProjectionType.Sphere;
-                DisplayImageInSphereViewer();
+                _projectionManager.Projection = ProjectionType.ThreeSixty;
+                DisplayImageInThreeSixtyViewer();
             }
         }
 
@@ -532,13 +548,13 @@ namespace KUK360.Windows
 
         private void CmdZoomInExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (IsFlatViewerDisplayed())
+            if (IsStandardViewerDisplayed())
             {
-                flatViewer.ZoomIn();
+                StandardViewer.ZoomIn();
             }
             else
             {
-                sphereViewer.ZoomIn();
+                ThreeSixtyViewer.ZoomIn();
             }
         }
 
@@ -555,13 +571,13 @@ namespace KUK360.Windows
 
         private void CmdZoomOutExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (IsFlatViewerDisplayed())
+            if (IsStandardViewerDisplayed())
             {
-                flatViewer.ZoomOut();
+                StandardViewer.ZoomOut();
             }
             else
             {
-                sphereViewer.ZoomOut();
+                ThreeSixtyViewer.ZoomOut();
             }
         }
 
@@ -578,13 +594,13 @@ namespace KUK360.Windows
 
         private void CmdZoom100Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (IsFlatViewerDisplayed())
+            if (IsStandardViewerDisplayed())
             {
-                flatViewer.ZoomReset();
+                StandardViewer.ZoomReset();
             }
             else
             {
-                sphereViewer.ZoomReset();
+                ThreeSixtyViewer.ZoomReset();
             }
         }
 
@@ -601,8 +617,8 @@ namespace KUK360.Windows
 
         private void CmdZoomShowExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            sphereViewer.ToggleZoomControl();
-            flatViewer.ToggleZoomControl();
+            ThreeSixtyViewer.ToggleZoomControl();
+            StandardViewer.ToggleZoomControl();
         }
 
         #endregion
@@ -613,28 +629,28 @@ namespace KUK360.Windows
 
         private void CmdRotateLeftCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (IsFlatViewerDisplayed())
+            if (IsStandardViewerDisplayed())
             {
                 e.CanExecute = IsImageDisplayed();
             }
 
-            if (IsSphereViewerDisplayed())
+            if (IsThreeSixtyViewerDisplayed())
             {
-                e.CanExecute = IsImageDisplayed() && sphereViewer.CanAutoRotateLeft();
+                e.CanExecute = IsImageDisplayed() && ThreeSixtyViewer.CanAutoRotateLeft();
             }
         }
 
         private void CmdRotateLeftExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (IsFlatViewerDisplayed())
+            if (IsStandardViewerDisplayed())
             {
-                flatViewer.RotateLeft();
+                StandardViewer.RotateLeft();
             }
 
-            if (IsSphereViewerDisplayed())
+            if (IsThreeSixtyViewerDisplayed())
             {
-                sphereViewer.AutoRotateLeft();
-                bubbleViewer.ShowTemporaryBubble("Rotation speed: " + Math.Abs(sphereViewer.GetAutoRotateSpeed()));
+                ThreeSixtyViewer.AutoRotateLeft();
+                bubbleViewer.ShowTemporaryBubble("Rotation speed: " + Math.Abs(ThreeSixtyViewer.GetAutoRotateSpeed()));
             }
         }
 
@@ -646,28 +662,28 @@ namespace KUK360.Windows
 
         private void CmdRotateRightCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (IsFlatViewerDisplayed())
+            if (IsStandardViewerDisplayed())
             {
                 e.CanExecute = IsImageDisplayed();
             }
 
-            if (IsSphereViewerDisplayed())
+            if (IsThreeSixtyViewerDisplayed())
             {
-                e.CanExecute = IsImageDisplayed() && sphereViewer.CanAutoRotateRight();
+                e.CanExecute = IsImageDisplayed() && ThreeSixtyViewer.CanAutoRotateRight();
             }
         }
 
         private void CmdRotateRightExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (IsFlatViewerDisplayed())
+            if (IsStandardViewerDisplayed())
             {
-                flatViewer.RotateRight();
+                StandardViewer.RotateRight();
             }
 
-            if (IsSphereViewerDisplayed())
+            if (IsThreeSixtyViewerDisplayed())
             {
-                sphereViewer.AutoRotateRight();
-                bubbleViewer.ShowTemporaryBubble("Rotation speed: " + Math.Abs(sphereViewer.GetAutoRotateSpeed()));
+                ThreeSixtyViewer.AutoRotateRight();
+                bubbleViewer.ShowTemporaryBubble("Rotation speed: " + Math.Abs(ThreeSixtyViewer.GetAutoRotateSpeed()));
             }
         }
 
@@ -684,13 +700,13 @@ namespace KUK360.Windows
 
         private void CmdViewResetExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (IsSphereViewerDisplayed())
+            if (IsThreeSixtyViewerDisplayed())
             {
-                sphereViewer.LoadImage(_fileManager.CurrentFile);
+                ThreeSixtyViewer.LoadImage(_fileManager.CurrentFile);
             }
             else
             {
-                flatViewer.LoadImage(_fileManager.CurrentFile, false);
+                StandardViewer.LoadImage(_fileManager.CurrentFile, false);
             }
         }
 
@@ -702,12 +718,12 @@ namespace KUK360.Windows
 
         private void CmdViewGridCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = IsImageDisplayed() && IsFlatViewerDisplayed();
+            e.CanExecute = IsImageDisplayed() && IsStandardViewerDisplayed();
         }
 
         private void CmdViewGridExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            flatViewer.ToggleGrid();
+            StandardViewer.ToggleGrid();
         }
 
         #endregion

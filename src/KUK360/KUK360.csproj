@@ -66,6 +66,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Codes\AppInfo.cs" />
+    <Compile Include="Codes\IStandardImageViewer.cs" />
+    <Compile Include="Codes\IThreeSixtyImageViewer.cs" />
     <Compile Include="Codes\LatestVersionInfo.cs" />
     <Compile Include="Codes\ImageFormatManager.cs" />
     <Compile Include="Codes\SimpleXmlSerializer.cs" />
