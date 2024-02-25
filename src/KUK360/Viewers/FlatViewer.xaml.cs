@@ -169,7 +169,7 @@ namespace KUK360.Viewers
                 // var stopWatch = System.Diagnostics.Stopwatch.StartNew();
 
                 // Load image as bitmap
-                // Note: The same image is loaded in SphereViewer first (takes > 100 ms) and then in FlatViewer (takes 0 ms)
+                // Note: The same image is loaded in SphereMeshViewer first (takes > 100 ms) and then in FlatViewer (takes 0 ms)
                 _bitmapImage = new BitmapImage();
                 _bitmapImage.BeginInit();
                 _bitmapImage.UriSource = new Uri(_imagePath);

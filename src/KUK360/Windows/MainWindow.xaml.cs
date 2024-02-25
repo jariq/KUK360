@@ -47,7 +47,7 @@ namespace KUK360.Windows
         {
             get
             {
-                return sphereViewer;
+                return sphereMeshViewer;
             }
         }
 

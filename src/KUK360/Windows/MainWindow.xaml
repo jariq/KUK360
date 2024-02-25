@@ -388,7 +388,7 @@ SOFTWARE.
             <kuk360Viewers:FlatViewer x:Name="flatViewer" 
                                   Margin="0" 
                                   ContextMenu="{StaticResource ViewerContexMenu}" />
-            <kuk360Viewers:SphereViewer x:Name="sphereViewer" 
+            <kuk360Viewers:SphereMeshViewer x:Name="sphereMeshViewer" 
                                   Margin="0" 
                                   ContextMenu="{StaticResource ViewerContexMenu}" />
             <kuk360Viewers:BubbleViewer x:Name="bubbleViewer" 

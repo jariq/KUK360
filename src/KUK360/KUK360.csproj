@@ -103,8 +103,8 @@
       <DependentUpon>FlatViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Codes\FullScreenManager.cs" />
-    <Compile Include="Viewers\SphereViewer.xaml.cs">
-      <DependentUpon>SphereViewer.xaml</DependentUpon>
+    <Compile Include="Viewers\SphereMeshViewer.xaml.cs">
+      <DependentUpon>SphereMeshViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viewers\TextViewer.xaml.cs">
       <DependentUpon>TextViewer.xaml</DependentUpon>
@@ -143,7 +143,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Viewers\SphereViewer.xaml">
+    <Page Include="Viewers\SphereMeshViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

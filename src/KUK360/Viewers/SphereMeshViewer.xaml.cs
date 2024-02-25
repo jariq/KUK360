@@ -67,7 +67,7 @@ namespace KUK360.Viewers
     /// <summary>
     /// 360 projection image viewer
     /// </summary>
-    public partial class SphereViewer : UserControl, IThreeSixtyImageViewer
+    public partial class SphereMeshViewer : UserControl, IThreeSixtyImageViewer
     {
         #region Private fields
 
@@ -148,7 +148,7 @@ namespace KUK360.Viewers
         /// <summary>
         /// Class constructor
         /// </summary>
-        public SphereViewer()
+        public SphereMeshViewer()
         {
             InitializeComponent();
 
@@ -233,7 +233,7 @@ namespace KUK360.Viewers
                 // var stopWatch = System.Diagnostics.Stopwatch.StartNew();
 
                 // Load image as bitmap
-                // Note: The same image is loaded in SphereViewer first (takes > 100 ms) and then in FlatViewer (takes 0 ms)
+                // Note: The same image is loaded in SphereMeshViewer first (takes > 100 ms) and then in FlatViewer (takes 0 ms)
                 _image = new BitmapImage();
                 _image.BeginInit();
                 _image.UriSource = new Uri(path);
@@ -241,7 +241,7 @@ namespace KUK360.Viewers
                 _image.EndInit();
 
                 // stopWatch.Stop();
-                // System.Diagnostics.Trace.WriteLine("SphereViewer loading took " + stopWatch.ElapsedMilliseconds + "ms");
+                // System.Diagnostics.Trace.WriteLine("SphereMeshViewer loading took " + stopWatch.ElapsedMilliseconds + "ms");
             }
             catch (Exception ex)
             {
