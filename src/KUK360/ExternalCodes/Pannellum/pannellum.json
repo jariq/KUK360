@@ -1,0 +1,7 @@
+{
+    "type": "equirectangular",
+    "autoLoad": true,
+    "showControls": false,
+    "compass": false,
+    "ignoreGPanoXMP": true
+}

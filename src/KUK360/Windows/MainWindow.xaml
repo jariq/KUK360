@@ -382,19 +382,25 @@ SOFTWARE.
         </Menu>
         <Grid Grid.Row="1" Background="{StaticResource KukColorViewerBackground}">
             <kuk360Viewers:TextViewer x:Name="textViewer" 
-                                  Margin="0" 
-                                  HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                  ContextMenu="{StaticResource ViewerContexMenu}" />
+                Margin="0" 
+                HorizontalAlignment="Center" VerticalAlignment="Center" 
+                ContextMenu="{StaticResource ViewerContexMenu}" />
             <kuk360Viewers:FlatViewer x:Name="flatViewer" 
-                                  Margin="0" 
-                                  ContextMenu="{StaticResource ViewerContexMenu}" />
+                Visibility="Hidden"
+                Margin="0" 
+                ContextMenu="{StaticResource ViewerContexMenu}" />
             <kuk360Viewers:SphereMeshViewer x:Name="sphereMeshViewer" 
-                                  Margin="0" 
-                                  ContextMenu="{StaticResource ViewerContexMenu}" />
+                Visibility="Hidden"
+                Margin="0" 
+                ContextMenu="{StaticResource ViewerContexMenu}" />
+            <kuk360Viewers:PannellumViewer x:Name="pannellumViewer" 
+                Visibility="Hidden"
+                Margin="0" 
+                ContextMenu="{StaticResource ViewerContexMenu}" />
             <kuk360Viewers:BubbleViewer x:Name="bubbleViewer" 
-                                  Margin="20" 
-                                  HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                                  ContextMenu="{StaticResource ViewerContexMenu}" />
+                Margin="20" 
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                ContextMenu="{StaticResource ViewerContexMenu}" />
         </Grid>
         <Grid Grid.Row="2" Background="{StaticResource KukColorMainButtonsBackground}">
             <Grid.ColumnDefinitions>
