@@ -191,7 +191,7 @@
     </EmbeddedResource>
     <None Include="app.manifest" />
     <Resource Include="ExternalCodes\FontAwesome\FontAwesome.otf" />
-    <None Include="ExternalCodes\Pannellum\pannellum.json">
+    <None Include="ExternalCodes\Pannellum\standalone\pannellum.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="LICENSE.rtf">
@@ -223,10 +223,40 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ExternalCodes\Pannellum\pannellum1.htm">
+    <Content Include="ExternalCodes\Pannellum\css\img\background.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ExternalCodes\Pannellum\pannellum2.htm">
+    <Content Include="ExternalCodes\Pannellum\css\img\compass.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\css\img\grab.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\css\img\grabbing.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\css\img\sprites.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\css\pannellum.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\js\libpannellum.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\js\pannellum.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\standalone\pannellum1.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\standalone\pannellum2.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\standalone\standalone.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalCodes\Pannellum\standalone\standalone.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

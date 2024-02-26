@@ -28,18 +28,9 @@ SOFTWARE.
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:WebView2Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
-             xmlns:kuk360Controls="clr-namespace:KUK360.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{StaticResource KukColorViewerBackground}">
         <WebView2Wpf:WebView2 Name="webView2" />
-        <kuk360Controls:ZoomControl 
-            x:Name="zoomControl" 
-            Minimum="1" 
-            Maximum="400" 
-            Visibility="Visible" 
-            HorizontalAlignment="Right" 
-            VerticalAlignment="Stretch" 
-            ZoomValueChanged="zoomControl_ZoomValueChanged" />
     </Grid>
 </UserControl>

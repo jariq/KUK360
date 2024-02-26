@@ -98,11 +98,9 @@ namespace KUK360.Viewers
 
                 webView2.CoreWebView2.SetVirtualHostNameToFolderMapping("www.kuk360.invalid", pannellumDir, CoreWebView2HostResourceAccessKind.Allow);
 
-                _pannellumUrl1 = "http://www.kuk360.invalid/" + "pannellum1.htm";
-                _pannellumUrl2 = "http://www.kuk360.invalid/" + "pannellum2.htm";
-                _pannellumConfig = "http://www.kuk360.invalid/" + "pannellum.json";
-
-                // webView2.CoreWebView2.OpenDevToolsWindow();
+                _pannellumUrl1 = "http://www.kuk360.invalid/standalone/pannellum1.htm";
+                _pannellumUrl2 = "http://www.kuk360.invalid/standalone/pannellum2.htm";
+                _pannellumConfig = "http://www.kuk360.invalid/standalone/pannellum.json";
 
                 _initialized = true;
             }
@@ -140,7 +138,7 @@ namespace KUK360.Viewers
 
         public void AutoRotateStop()
         {
-            // throw new NotImplementedException();
+            // Intentionally left blank
         }
 
         public bool CanAutoRotateLeft()
@@ -169,29 +167,17 @@ namespace KUK360.Viewers
 
         public void ToggleZoomControl()
         {
-            if (this.zoomControl.Visibility == Visibility.Visible)
-            {
-                HideZoomControl();
-            }
-            else
-            {
-                ShowZoomControl();
-            }
+            webView2.CoreWebView2.OpenDevToolsWindow();
         }
 
         public void ShowZoomControl()
         {
-            this.zoomControl.Visibility = Visibility.Visible;
+            // Intentionally left blank
         }
 
         public void HideZoomControl()
         {
-            this.zoomControl.Visibility = Visibility.Hidden;
-        }
-
-        private void zoomControl_ZoomValueChanged(double zoomValue)
-        {
-            throw new NotImplementedException();
+            // Intentionally left blank
         }
 
         #endregion
