@@ -1,0 +1,87 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "mingw-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "C:/Qt/Qt6.12.0/6.12.0/mingw_64",
+        "CMAKE_MAKE_PROGRAM": "C:/Qt/Qt6.12.0/Tools/Ninja/ninja.exe"
+      }
+    },
+    {
+      "name": "mingw-debug",
+      "inherits": "mingw-base",
+      "binaryDir": "${sourceDir}/build/windows/buildroot/debug",
+      "installDir": "${sourceDir}/build/windows/output/debug/KUK360",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "mingw-release",
+      "inherits": "mingw-base",
+      "binaryDir": "${sourceDir}/build/windows/buildroot/release",
+      "installDir": "${sourceDir}/build/windows/output/release/KUK360",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "macos-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Darwin" },
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "$env{HOME}/Qt/Qt6.12.0/6.12.0/macos",
+        "CMAKE_MAKE_PROGRAM": "$env{HOME}/Qt/Qt6.12.0/Tools/Ninja/ninja",
+        "CMAKE_OSX_ARCHITECTURES": "arm64;x86_64",
+        "CMAKE_OSX_DEPLOYMENT_TARGET": "14.4"
+      }
+    },
+    {
+      "name": "macos-debug",
+      "inherits": "macos-base",
+      "binaryDir": "${sourceDir}/build/macos/buildroot/debug",
+      "installDir": "${sourceDir}/build/macos/output/debug",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "macos-release",
+      "inherits": "macos-base",
+      "binaryDir": "${sourceDir}/build/macos/buildroot/release",
+      "installDir": "${sourceDir}/build/macos/output/release",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "linux-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "$env{HOME}/Qt/Qt6.12.0/6.12.0/gcc_64",
+        "CMAKE_MAKE_PROGRAM": "$env{HOME}/Qt/Qt6.12.0/Tools/Ninja/ninja"
+      }
+    },
+    {
+      "name": "linux-debug",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build/linux/buildroot/debug",
+      "installDir": "${sourceDir}/build/linux/output/debug",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "linux-release",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build/linux/buildroot/release",
+      "installDir": "${sourceDir}/build/linux/output/release",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "mingw-debug", "configurePreset": "mingw-debug" },
+    { "name": "mingw-release", "configurePreset": "mingw-release" },
+    { "name": "macos-debug", "configurePreset": "macos-debug" },
+    { "name": "macos-release", "configurePreset": "macos-release" },
+    { "name": "linux-debug", "configurePreset": "linux-debug" },
+    { "name": "linux-release", "configurePreset": "linux-release" }
+  ]
+}

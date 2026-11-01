@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleName</key>
+	<string>KUK360</string>
+	<key>CFBundleDisplayName</key>
+	<string>KUK360</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.kuk360.KUK360</string>
+	<key>CFBundleExecutable</key>
+	<string>KUK360</string>
+	<key>CFBundleIconFile</key>
+	<string>KUK360.icns</string>
+	<key>CFBundleVersion</key>
+	<string>@PROJECT_VERSION@</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@PROJECT_VERSION@</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>@KUK360_COPYRIGHT@</string>
+	<key>CFBundleGetInfoString</key>
+	<string>@PROJECT_DESCRIPTION@</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.photography</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>@CMAKE_OSX_DEPLOYMENT_TARGET@</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
+	<!-- Offers KUK360 in Finder's "Open With" for the supported formats (the list in
+	     ImageFolder::nameFilters()) without becoming their default application. -->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Image</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.jpeg</string>
+				<string>public.png</string>
+				<string>com.microsoft.bmp</string>
+				<string>com.compuserve.gif</string>
+				<string>public.tiff</string>
+				<string>org.webmproject.webp</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

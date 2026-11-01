@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AppStream metadata for software centers and AppImage tools; installed into
+     usr/share/metainfo. Only the minimum: features, screenshots and release notes are on the
+     website and in README.md, categories and file types come from the .desktop file.
+     Check with "appstreamcli validate", see the Linux section of CLAUDE.md. -->
+<component type="desktop-application">
+  <id>com.kuk360.KUK360</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+
+  <name>KUK360</name>
+  <summary>Simple 360 photo viewer</summary>
+  <developer id="com.kuk360">
+    <name>Jaroslav Imrich</name>
+  </developer>
+
+  <description>
+    <p>
+      KUK360 views any image in 360° projection and supports equirectangular/stitched photos taken by any 360° camera.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">com.kuk360.KUK360.desktop</launchable>
+  <url type="homepage">https://www.kuk360.com/</url>
+  <content_rating type="oars-1.1"/>
+</component>

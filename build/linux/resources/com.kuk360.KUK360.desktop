@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=KUK360
+GenericName=360 Photo Viewer
+Comment=Simple 360 photo viewer
+Exec=KUK360 %f
+Icon=com.kuk360.KUK360
+Terminal=false
+Categories=Graphics;Viewer;
+MimeType=image/jpeg;image/png;image/bmp;image/gif;image/tiff;image/webp;
+Keywords=panorama;360;equirectangular;photo;image;

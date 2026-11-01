@@ -1,0 +1,24 @@
+# Build environment for the Linux distribution (AppImage), used by build/linux/build-dist.sh.
+#
+# AlmaLinux 9 (RHEL 9) has glibc 2.34 and GCC 11, the same minimum as the Qt 6.12 binaries
+# from the Qt installer, so the AppImage runs wherever Qt itself runs (Ubuntu 22.04+,
+# Debian 12+, RHEL 9+, Fedora 35+...). Qt, CMake and Ninja are not part of the image: the
+# Qt installation (~/Qt/Qt6.12.0) is mounted at the same path as on the host.
+FROM docker.io/library/almalinux:9.8
+
+# Compiler (with binutils for the glibc check), OpenGL and EGL headers required by the CMake
+# package of Qt GUI, and mksquashfs for the AppImage.
+RUN dnf -y install gcc-c++ binutils mesa-libGL-devel mesa-libEGL-devel squashfs-tools \
+    && dnf clean all
+
+# System libraries needed by the shipped Qt libraries and plugins (objdump -p ... NEEDED),
+# for linking and for the Qt deploy script, which resolves all dependencies. They come from
+# system directories, so they are not copied into the AppImage. Keep in line with the
+# plugins and libraries selected in CMakeLists.txt (KUK360_DEPLOY_OPTIONS).
+RUN dnf -y install \
+        atk brotli cairo cairo-gobject dbus-libs fontconfig freetype gdk-pixbuf2 glib2 gtk3 \
+        harfbuzz krb5-libs libX11 libX11-xcb libglvnd-egl libglvnd-glx libwayland-client \
+        libwayland-cursor libwayland-egl libxcb libxkbcommon libxkbcommon-x11 libzstd pango \
+        xcb-util xcb-util-cursor xcb-util-image xcb-util-keysyms xcb-util-renderutil \
+        xcb-util-wm zlib \
+    && dnf clean all
