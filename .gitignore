@@ -1,6 +1,7 @@
-[Bb]in/
-[Oo]bj/
-*.suo
+build/*/buildroot/
+build/*/output/
+CMakeUserPresets.json
 *.user
-.vs/
-/build/KUK360.msi
+.DS_Store
+/.qtcreator
+/build/Desktop_*/

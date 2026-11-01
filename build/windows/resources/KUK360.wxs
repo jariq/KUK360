@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Windows installer (MSI) of KUK360, built by build/windows/tools/msi.cmake with the WiX
+  Toolset (local .NET tool, version in build/windows/dotnet-tools.json).
+
+  Install:   msiexec /i KUK360-<version>-x64.msi /l* KUK360-install.log
+  Uninstall: msiexec /x KUK360-<version>-x64.msi /l* KUK360-uninstall.log
+  Repair:    msiexec /fv KUK360-<version>-x64.msi /l* KUK360-repair.log
+
+  Preprocessor variables (wix build -d): Version, AppDir (the installed application),
+  LicenseRtf and IconFile.
+
+  The UpgradeCode, the per-machine scope and the names come from the installer of the
+  original .NET version (2.x), so this one upgrades it: MajorUpgrade removes the old
+  version (32-bit, in Program Files (x86)) and installs the new one. The UpgradeCode must
+  never change. The ProductCode is generated for each build.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="KUK360" Manufacturer="Jaroslav Imrich" Version="$(var.Version)" Language="1033"
+           UpgradeCode="EDE8C2FD-D43A-4F9A-8BE6-39B675CE0A8B" Scope="perMachine" Compressed="yes">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <!-- Product info displayed in Installed apps -->
+    <Icon Id="KUK360Icon" SourceFile="$(var.IconFile)" />
+    <Property Id="ARPPRODUCTICON" Value="KUK360Icon" />
+    <Property Id="ARPURLINFOABOUT" Value="https://www.kuk360.com/" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://www.kuk360.com/" />
+
+    <!-- The application. Without a Feature element, all components go to one default
+         feature. -->
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="KUK360INSTALLDIR" Name="KUK360">
+        <Component Id="MainExecutable">
+          <File Id="KUK360Exe" Source="$(var.AppDir)\KUK360.exe" KeyPath="yes" />
+        </Component>
+        <!-- Everything else: Qt libraries and plugins, MinGW runtime, qt.conf, licenses -->
+        <Files Include="$(var.AppDir)\**">
+          <Exclude Files="$(var.AppDir)\KUK360.exe" />
+        </Files>
+      </Directory>
+    </StandardDirectory>
+
+    <!-- Start menu shortcut -->
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="KUK360">
+        <Component Id="ApplicationShortcut">
+          <Shortcut Id="ApplicationStartMenuShortcut" Name="KUK360" Description="Simple 360 photo viewer"
+                    Target="[#KUK360Exe]" WorkingDirectory="KUK360INSTALLDIR" />
+          <RemoveFolder Id="CleanUpShortCut" On="uninstall" />
+          <RegistryValue Root="HKMU" Key="Software\KUK360" Name="installed" Type="integer" Value="1"
+                         KeyPath="yes" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
+
+    <!-- "Open with" for the supported formats (keep in line with ImageFolder::nameFilters()).
+         KUK360 is offered in Open with and in Settings > Default apps, but it is never made
+         the default application: the extensions get only OpenWithProgids entries, one ProgID
+         per format (its name is shown as the file type if the user picks KUK360 as the
+         default). -->
+    <Component Id="FileAssociations" Directory="KUK360INSTALLDIR">
+      <RegistryValue Root="HKLM" Key="Software\RegisteredApplications" Name="KUK360"
+                     Value="Software\KUK360\Capabilities" Type="string" KeyPath="yes" />
+      <RegistryKey Root="HKLM" Key="Software\KUK360\Capabilities">
+        <RegistryValue Name="ApplicationName" Value="KUK360" Type="string" />
+        <RegistryValue Name="ApplicationDescription" Value="Simple 360 photo viewer" Type="string" />
+      </RegistryKey>
+      <RegistryKey Root="HKLM" Key="Software\Classes\Applications\KUK360.exe">
+        <RegistryValue Name="FriendlyAppName" Value="KUK360" Type="string" />
+        <RegistryValue Key="shell\open\command" Value="&quot;[#KUK360Exe]&quot; &quot;%1&quot;" Type="string" />
+      </RegistryKey>
+
+      <!-- ProgIDs -->
+      <?foreach ProgId in jpeg;png;bmp;gif;tiff;webp?>
+      <RegistryKey Root="HKLM" Key="Software\Classes\KUK360.$(ProgId)">
+        <RegistryValue Key="DefaultIcon" Value="[#KUK360Exe],0" Type="string" />
+        <RegistryValue Key="shell\open\command" Value="&quot;[#KUK360Exe]&quot; &quot;%1&quot;" Type="string" />
+      </RegistryKey>
+      <?endforeach?>
+      <RegistryValue Root="HKLM" Key="Software\Classes\KUK360.jpeg" Value="JPEG image" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\KUK360.png" Value="PNG image" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\KUK360.bmp" Value="BMP image" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\KUK360.gif" Value="GIF image" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\KUK360.tiff" Value="TIFF image" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\KUK360.webp" Value="WebP image" Type="string" />
+
+      <!-- Extensions: Open with (OpenWithProgids), supported types of the application and
+           its capabilities (Default apps) -->
+      <?define Extensions = jpg;jpeg;png;bmp;gif;tif;tiff;webp?>
+      <?foreach Extension in $(Extensions)?>
+      <RegistryValue Root="HKLM" Key="Software\Classes\Applications\KUK360.exe\SupportedTypes"
+                     Name=".$(Extension)" Value="" Type="string" />
+      <?endforeach?>
+      <RegistryValue Root="HKLM" Key="Software\Classes\.jpg\OpenWithProgids" Name="KUK360.jpeg" Value="" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\.jpeg\OpenWithProgids" Name="KUK360.jpeg" Value="" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\.png\OpenWithProgids" Name="KUK360.png" Value="" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\.bmp\OpenWithProgids" Name="KUK360.bmp" Value="" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\.gif\OpenWithProgids" Name="KUK360.gif" Value="" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\.tif\OpenWithProgids" Name="KUK360.tiff" Value="" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\.tiff\OpenWithProgids" Name="KUK360.tiff" Value="" Type="string" />
+      <RegistryValue Root="HKLM" Key="Software\Classes\.webp\OpenWithProgids" Name="KUK360.webp" Value="" Type="string" />
+      <RegistryKey Root="HKLM" Key="Software\KUK360\Capabilities\FileAssociations">
+        <RegistryValue Name=".jpg" Value="KUK360.jpeg" Type="string" />
+        <RegistryValue Name=".jpeg" Value="KUK360.jpeg" Type="string" />
+        <RegistryValue Name=".png" Value="KUK360.png" Type="string" />
+        <RegistryValue Name=".bmp" Value="KUK360.bmp" Type="string" />
+        <RegistryValue Name=".gif" Value="KUK360.gif" Type="string" />
+        <RegistryValue Name=".tif" Value="KUK360.tiff" Type="string" />
+        <RegistryValue Name=".tiff" Value="KUK360.tiff" Type="string" />
+        <RegistryValue Name=".webp" Value="KUK360.webp" Type="string" />
+      </RegistryKey>
+    </Component>
+
+    <!-- User interface: welcome, license (GPL-3.0), installation directory -->
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="KUK360INSTALLDIR" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.LicenseRtf)" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(sys.SOURCEFILEDIR)WixUIDialogBmp.png" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(sys.SOURCEFILEDIR)WixUIBannerBmp.png" />
+  </Package>
+</Wix>

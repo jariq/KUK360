@@ -1,0 +1,27 @@
+Secure Hash Algorithm SHA-3 - brg_endian, version 1.0.0
+
+SHA-3, originally known as Keccak, is a cryptographic hash function.
+
+Used in Qt Core (QCryptographicHash).
+
+The sources can be found in qtbase/src/3rdparty/sha3/brg_endian.h.
+
+upstream version: 1.0.0
+ Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
+
+BSD 2-clause "Simplified" License.
+ Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
+
+ The redistribution and use of this software (with or without changes)
+ is allowed without the payment of fees or royalties provided that:
+
+   source code distributions include the above copyright notice, this
+   list of conditions and the following disclaimer;
+
+   binary distributions include the above copyright notice, this list
+   of conditions and the following disclaimer in their documentation.
+
+ This software is provided 'as is' with no explicit or implied warranties
+ in respect of its operation, including, but not limited to, correctness
+ and fitness for purpose.
+

@@ -1,0 +1,17 @@
+Secure Hash Algorithm SHA-1
+
+Implements the Secure Hash Algorithms SHA 1
+
+Used in Qt Core (QCryptographicHash).
+
+The sources can be found in qtbase/src/3rdparty/sha1.
+
+Project Homepage
+ Copyright (C) Dominik Reichl <dominik.reichl@t-online.de>
+ Copyright (C) 2016 The Qt Company Ltd
+
+Public Domain.
+ 100% free public domain implementation of the SHA-1 algorithm
+ by Dominik Reichl <dominik.reichl@t-online.de>
+ Web: http://www.dominik-reichl.de/
+
